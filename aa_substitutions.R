@@ -18,6 +18,7 @@ aa_substitutions <- function(meta_file, outfile, host = "Human") {
     filter(Pango.lineage != "") %>%
     filter(str_detect(Collection.date, "\\d\\d\\d\\d-\\d\\d-\\d\\d")) %>%
     select(Virus.name, Collection.date, Accession.ID, Location, Pango.lineage, AA.Substitutions) %>% 
+    mutate(AA.Substitutions = str_remove_all(AA.Substitutions, pattern = "[()]")) %>%
     separate_rows(AA.Substitutions, sep = ",") %>% 
     separate(Location, c("Region", "Country", "State"), sep = "\\s*/\\s*", extra = "drop", fill = "right") %>%
     select(-c("Region", "State"))
